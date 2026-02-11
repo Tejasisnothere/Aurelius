@@ -16,7 +16,7 @@ app.use(cors({
 }))
 
 app.use("/api/auth", authRoutes);
-app.use("/file", fileRoutes);
+//app.use("/file", fileRoutes);
 
 connectDB();
 

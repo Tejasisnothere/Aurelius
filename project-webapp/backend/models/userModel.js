@@ -1,8 +1,9 @@
 import mongoose from "mongoose";
 import crypto from "crypto";
 import bcrypt from "bcrypt";
+import validator from "validator";
 
-const userSchema = new mongoose.model(
+const userSchema = new mongoose.Schema(
   {
     name: {
       type: String,
@@ -11,15 +12,15 @@ const userSchema = new mongoose.model(
     },
 
     email: {
-      type: true,
+      type: String,
       required: true,
       unique: true,
       trim: true,
       lowercase: true,
-      match: [
-        /^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/,
-        "Please enter a valid email",
-      ],
+      validate: {
+        validator: validator.isEmail,
+        message: "Please enter a valid email",
+      },
     },
 
     password: {
@@ -65,13 +66,11 @@ userSchema.index({ email: 1 });
 userSchema.index({ role: 1 });
 userSchema.index({ isActive: 1 });
 
-userSchema.pre("save", async function (next) {
-  if (!this.isModified("password")) return next();
+userSchema.pre("save", async function () {
+    if (!this.isModified("password")) return;
 
-  const salt = await bcrypt.genSalt(10);
-  this.password = await bcrypt.hash(this.password, salt);
-
-  next();
+    const salt = await bcrypt.genSalt(10);
+    this.password = await bcrypt.hash(this.password, salt);
 });
 
 userSchema.methods.comparePassword = async function (candidatePassword) {
@@ -102,9 +101,8 @@ userSchema.methods.generatePasswordResetToken = function () {
   return resetToken;
 };
 
-userSchema.pre(/^find/, function (next) {
-  this.find({ isActive: true });
-  next();
+userSchema.pre(/^find/, function () {
+  this.where({ isActive: true });
 });
 
 export default mongoose.model("User", userSchema);
