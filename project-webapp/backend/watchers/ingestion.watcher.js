@@ -7,7 +7,7 @@ import FormData from "form-data";
 const WATCH_DIR = "/watch-folder";
 const BACKEND_URL = "http://echofin-api:8000/file/register";
 
-const ALLOWED_EXTENSIONS = [".mp3", "mpeg", ".wav", ".m4a", ".aac"];
+const ALLOWED_EXTENSIONS = [".mp3", ".mpeg", ".wav", ".m4a", ".aac"];
 
 const sleep = (ms) => new Promise((r) => setTimeout(r, ms));
 
