@@ -20,7 +20,7 @@ def get_requirements()->List[str]:
 
 
 setup(
-    name="FinAI",
+    name="Aurelius",
     version='0.0.1',
     author="Tejas Kadam",
     author_email="tejaskadam209@gmail.com",
