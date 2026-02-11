@@ -8,7 +8,7 @@ const reviewSchema = new mongoose.Schema({
 
     reviewerId: {
         type: String,
-        required: True
+        required: true
     },
 
     reviewerRegion: {
@@ -17,7 +17,7 @@ const reviewSchema = new mongoose.Schema({
 
     rating: {
         type: Number,
-        required: True
+        required: true
     },
 
     verifiedPurchase: {
@@ -30,12 +30,36 @@ const reviewSchema = new mongoose.Schema({
     },
 
     helpfulVotes: {
-        type: Number
+        type: Number,
+        default: 0
     },
 
     title: {
         type: String
-    }
-})
+    },
+
+    aiStatus: {
+        type: String,
+        enum: ["pending", "sent", "processed", "failed"],
+        default: "pending"
+    },
+
+    aiResults: {
+      sentimentScore: Number,
+      intent: String,
+      aspects: [
+        {
+          name: String,
+          score: Number,
+        },
+      ],
+      churnRiskScore: Number,
+    },
+}, {timestamps: true});
+
+reviewSchema.index({ productRef: 1 });
+reviewSchema.index({ aiStatus: 1 });
+reviewSchema.index({ createdAt: -1 });
+reviewSchema.index({ reviewerRegion: 1 });
 
 export default mongoose.model("Review", reviewSchema);

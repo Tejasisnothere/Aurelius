@@ -113,4 +113,5 @@ watcher
   })
   .on("error", (err) => {
     console.error("Watcher error:", err);
-  });
+  }
+);

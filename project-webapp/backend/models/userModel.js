@@ -15,7 +15,7 @@ const userSchema = new mongoose.model({
   password: {
     type: String,
     required: true
-  }
+  },
 });
 
 export default mongoose.model("User", userSchema);

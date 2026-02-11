@@ -40,9 +40,9 @@ export const registerFile = async (req, res) => {
         },
         {
           jobId: file._id.toString(), // idempotent
-          attempts: 1,            // ❌ no retries
-          removeOnComplete: true, // 🧹 cleanup
-          removeOnFail: true,     // 🧹 cleanup
+          attempts: 1,            //  no retries
+          removeOnComplete: true, //  cleanup
+          removeOnFail: true,     //  cleanup
           backoff: false 
         }
       );
@@ -52,7 +52,7 @@ export const registerFile = async (req, res) => {
         status: "queued"
       });
 
-      console.log("🚀 Normalization job enqueued:", file._id);
+      console.log("Normalization job enqueued:", file._id);
     });
 
   } catch (err) {

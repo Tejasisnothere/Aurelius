@@ -21,9 +21,9 @@ export const processAudio = async (fileId, audioUrl) => {
       }
     });
 
-    console.log(`[${fileId}] ✅ DONE`);
+    console.log(`[${fileId}] DONE`);
   } catch (err) {
-    console.error(`[${fileId}] ❌ FAILED`, err);
+    console.error(`[${fileId}] FAILED`, err);
 
     await File.findByIdAndUpdate(fileId, {
       status: "failed",
