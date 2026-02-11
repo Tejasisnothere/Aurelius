@@ -1,42 +1,135 @@
-#root {
-  max-width: 1280px;
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: #0f172a;
+  color: #e5e7eb;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+/* Page layout */
+.page {
+  max-width: 600px;
   margin: 0 auto;
-  padding: 2rem;
+  padding: 40px 20px;
+}
+
+/* Header */
+header {
   text-align: center;
+  margin-bottom: 32px;
 }
 
-.logo {
-  height: 6em;
-  padding: 1.5em;
-  will-change: filter;
-  transition: filter 300ms;
-}
-.logo:hover {
-  filter: drop-shadow(0 0 2em #646cffaa);
-}
-.logo.react:hover {
-  filter: drop-shadow(0 0 2em #61dafbaa);
+header h1 {
+  margin: 0;
+  font-size: 28px;
+  font-weight: 700;
 }
 
-@keyframes logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+header p {
+  margin-top: 6px;
+  font-size: 14px;
+  opacity: 0.7;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  a:nth-of-type(2) .logo {
-    animation: logo-spin infinite 20s linear;
-  }
-}
-
+/* Card */
 .card {
-  padding: 2em;
+  background: #020617;
+  border-radius: 14px;
+  padding: 20px;
+  margin-bottom: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.4);
 }
 
-.read-the-docs {
-  color: #888;
+/* File drop */
+.file-drop {
+  display: block;
+  border: 2px dashed #334155;
+  border-radius: 12px;
+  padding: 28px;
+  text-align: center;
+  cursor: pointer;
+  transition: border-color 0.2s ease;
+}
+
+.file-drop:hover {
+  border-color: #22c55e;
+}
+
+.file-drop input {
+  display: none;
+}
+
+.file-drop strong {
+  display: block;
+  font-size: 16px;
+  margin-bottom: 4px;
+}
+
+.file-drop span {
+  font-size: 13px;
+  opacity: 0.7;
+}
+
+/* Button */
+button {
+  width: 100%;
+  margin-top: 16px;
+  padding: 12px;
+  border-radius: 10px;
+  border: none;
+  background: #22c55e;
+  color: #052e16;
+  font-weight: 600;
+  font-size: 15px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+button:hover {
+  background: #16a34a;
+}
+
+button:disabled {
+  background: #334155;
+  color: #94a3b8;
+  cursor: not-allowed;
+}
+
+/* Status section */
+.status {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.status-row {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  opacity: 0.6;
+  font-size: 14px;
+}
+
+.status-row.active {
+  opacity: 1;
+}
+
+.dot {
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  background: #334155;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 13px;
+  color: #e5e7eb;
+}
+
+.status-row.active .dot {
+  background: #22c55e;
+  color: #052e16;
 }
