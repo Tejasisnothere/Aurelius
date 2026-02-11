@@ -1,0 +1,43 @@
+version: "3.9"
+
+services:
+  redis:
+    image: redis:7
+    container_name: echofin-redis
+    ports:
+      - "6379:6379"
+    restart: unless-stopped
+
+  api:
+    build: .
+    container_name: echofin-api
+    command: npm run dev:api
+    ports:
+      - "8000:8000"
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  worker:
+    build: .
+    container_name: echofin-worker
+    command: node workers/normalization.worker.js
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    restart: unless-stopped
+
+  echofin-ingestion:
+    build: .
+    container_name: echofin-ingestion
+    command: node watchers/ingestion.watcher.js
+    env_file:
+      - .env
+    volumes:
+      - ./watch-folder:/watch-folder
+    depends_on:
+      - api
+    restart: unless-stopped
