@@ -3,10 +3,20 @@ import mongoose from "mongoose";
 const reviewSchema = new mongoose.Schema({
     productRef: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: "Product"
+        ref: "Product",
+        required: true
     },
 
-    reviewerId: {
+    externalProductId: {   // ASIN
+        type: String,
+        required: true
+    },
+
+    parentExternalId: {    // parent_asin
+        type: String
+    },
+
+    reviewerId: {          // user_id from Amazon
         type: String,
         required: true
     },
@@ -17,7 +27,30 @@ const reviewSchema = new mongoose.Schema({
 
     rating: {
         type: Number,
-        required: true
+        required: true,
+        min: 1,
+        max: 5
+    },
+
+    title: {
+        type: String,
+        trim: true
+    },
+
+    text: {
+        type: String,
+        trim: true
+    },
+
+    images: [
+        {
+            type: String            // can be ignored for now 
+        }
+    ],
+
+    helpfulVotes: {
+        type: Number,
+        default: 0
     },
 
     verifiedPurchase: {
@@ -25,17 +58,8 @@ const reviewSchema = new mongoose.Schema({
         default: false
     },
 
-    text: {
-        type: String,
-    },
-
-    helpfulVotes: {
-        type: Number,
-        default: 0
-    },
-
-    title: {
-        type: String
+    reviewTimestamp: {   // from CSV timestamp column
+        type: Date
     },
 
     aiStatus: {
@@ -45,21 +69,26 @@ const reviewSchema = new mongoose.Schema({
     },
 
     aiResults: {
-      sentimentScore: Number,
-      intent: String,
-      aspects: [
-        {
-          name: String,
-          score: Number,
-        },
-      ],
-      churnRiskScore: Number,
-    },
-}, {timestamps: true});
+        sentimentScore: Number,
+        intent: String,
+        aspects: [
+            {
+                name: String,
+                score: Number
+            }
+        ],
+        churnRiskScore: Number
+    }
 
-reviewSchema.index({ productRef: 1 });
+}, { timestamps: true });
+
+reviewSchema.index({ productRef: 1, reviewTimestamp: -1 });
+
 reviewSchema.index({ aiStatus: 1 });
-reviewSchema.index({ createdAt: -1 });
-reviewSchema.index({ reviewerRegion: 1 });
+
+reviewSchema.index(
+  { externalProductId: 1, reviewerId: 1 },
+  { unique: true }
+);
 
 export default mongoose.model("Review", reviewSchema);

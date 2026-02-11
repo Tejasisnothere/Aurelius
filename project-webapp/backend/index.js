@@ -8,6 +8,7 @@ import cookieParser from "cookie-parser";
 import authRoutes from "./routes/auth.routes.js";
 import fileRoutes from "./routes/file.routes.js";
 import productRoutes from "./routes/product.routes.js";
+import reviewRoutes from "./routes/review.routes.js";
 
 const app = express();
 app.use(express.json());
@@ -19,6 +20,7 @@ app.use(cors({
 app.use("/api/auth", authRoutes);
 app.use("/file", fileRoutes);
 app.use("/api/products", productRoutes);
+app.use("/api/reviews", reviewRoutes);
 
 connectDB();
 

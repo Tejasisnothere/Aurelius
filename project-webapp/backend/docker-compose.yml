@@ -1,5 +1,3 @@
-version: "3.9"
-
 services:
   redis:
     image: redis:7
@@ -19,6 +17,8 @@ services:
     depends_on:
       - redis
     restart: unless-stopped
+    volumes:
+      - ./uploads:/app/uploads
 
   worker:
     build: .
@@ -41,3 +41,15 @@ services:
     depends_on:
       - api
     restart: unless-stopped
+
+  review-worker:
+    build: .
+    container_name: echofin-review-worker
+    command: node workers/review.worker.js
+    env_file:
+      - .env
+    depends_on:
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./uploads:/app/uploads
